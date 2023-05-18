@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OCMS</title>
-    <link href="adminhome.css"rel="stylesheet"type="text/css">
+    <link href="{{url_for('static',filename='css/adminhome.css')}}"rel="stylesheet"type="text/css">
 </head>
 <body>
     <div class="card">
@@ -27,7 +27,7 @@
             <tr>
                 <td>1</td>
                 <td>hgctg</td>
-                <td><img src="23.png" id="a"></td>
+                <td><img src="{{url_for('static',filename='images/23.png')}}" id="a"></td>
                 <td>street light</td>
                 <td>in our colony</td>
                 <td><select name="role" id="role">
@@ -37,8 +37,8 @@
                 </select></td>
                 <td>Electrician</td>
                 <td>completed</td>
-                <td><img src="23.png" id="a"></td>
-                <td><center><button><img src="22.jpeg" id="b"></button></center></td>
+                <td><img src="{{url_for('static',filename='images/23.png')}}" id="a"></td>
+                <td><center><button><img src="{{url_for('static',filename='images/22.jpeg')}}" id="b"></button></center></td>
                 
             </tr>
         

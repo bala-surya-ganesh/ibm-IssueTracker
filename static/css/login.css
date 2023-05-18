@@ -25,7 +25,7 @@
     .container
     {
     top: 62%;
-    left: 50%;
+    left: 51%;
     position:absolute;
     transform:translate(-50%,-50%);
     }
@@ -46,10 +46,13 @@
     padding-left:100px,100px;
     padding-top:100px,100px;
     border-radius:50px;
-    top: 21%;
-    left: 46%;
+    top: 24%;
+    left: 48%;
     position:absolute;
     opacity:1.5;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    border-left: 1px solid rgba(255,255,255,.3);
+    border-right: 1px solid rgba(255,255,255,.3);
     }
     #name
     {
