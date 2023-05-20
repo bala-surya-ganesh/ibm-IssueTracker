@@ -60,7 +60,7 @@
     font-size:20px;
     color:0fffff;
     background-color:transparent;
-    border-bottom:1px solid rgb(11, 216, 243);
+    border-bottom:1px solid rgba(11, 200, 243, 0.392);
     margin-bottom:13px;
     padding:7px;
     opacity:0.9;
@@ -71,8 +71,12 @@
         height: 40px;
     padding:0px;
     border-radius: 20px;
-    background-color: aqua;
+    background-color: rgb(6, 247, 122);
+    box-shadow: 0 8px 32px 0 rgba(11, 9, 10, 0.459);
+    border-left: 1px solid rgba(15, 14, 14, 0.3);
+    border-right: 1px solid rgba(16, 14, 14, 0.3);
     color:rgb(8, 8, 8);
+    border: none;
     }
     a{
     color:rgb(0, 225, 255);

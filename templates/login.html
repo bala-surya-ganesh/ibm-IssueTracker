@@ -13,18 +13,11 @@
 <input type="text" name="username" placeholder="username" id="name" ><br>
 <input type="password"name="password" placeholder="password" id="name"><br><br>
 <a href="/register"><h2>register<h2></a><br><br>
-<button onclick="click()" id="button" href="{{url_for('static',filename='css/register.css')}}"><h2>submit</h2></button> 
+<button  id="button" href="{{url_for('static',filename='css/register.css')}}"><h2>submit</h2></button> 
 <p id="da">  </p>
 </form>
 </div>
 </div>
 <img src="{{url_for('static',filename='images/30.jpg')}}">
-<script>
-    function click(){
-        box=document.getElementsByid("name").value;
-        document.getElementsByid("da").innerHTML=da;
-        
-        }
-</script>
 </body>
 </html>

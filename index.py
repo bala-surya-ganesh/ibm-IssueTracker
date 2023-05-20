@@ -1,13 +1,33 @@
 from flask import Flask,render_template,request,url_for,session,send_from_directory,redirect
 import re
 import ibm_db
+import ibm_boto3
+from ibm_botocore.client import Config,ClientError
+import os
+
+UPLOAD_FOLDER = './upload'
 app = Flask(__name__)
 app.secret_key = "1324"
-
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 print("connecting...")
 
 conn = ibm_db.connect("DATABASE=bludb;HOSTNAME=0c77d6f2-5da9-48a9-81f8-86b520b87518.bs2io90l08kqb1od8lcg.databases.appdomain.cloud;PORT=31198;SECURITY=SSL;SSLServerCertificate=DigiCertGlobalRootCA.crt;UID=rzm08887;PWD=NM02c9OExoYdTRH2;", "", "")
 print("connected")
+
+
+COS_ENDPOINT = 'https://control.cloud-object-storage.cloud.ibm.com/v2/endpoints'
+COS_API_KEY_ID = 'VyltF2NMJXTAAT9LvSctJ48lo7yfPRoBe6czUewzSmCm'
+COS_INSTANCE_CRN = "crn:v1:bluemix:public:iam-identity::a/85b6b6e3ee6849dd9c905679a49ccbf0::serviceid:ServiceId-6387c04d-bcda-47b7-9e02-cae0ec485c6e"
+
+cos = ibm_boto3.client("s3",
+		        ibm_api_key_id=COS_API_KEY_ID,
+    ibm_service_instance_id=COS_INSTANCE_CRN,
+    config=Config(signature_version="oauth"),
+    endpoint_url=COS_ENDPOINT,
+	
+	)
+
+print("Cos:",cos)
 
 @app.route('/')
 def frontpage():
@@ -129,7 +149,7 @@ def register():
 def admin_register():
 	msg=''
 	if request.method == "POST":
-		USERNAME = request.form["username" ]
+		USERNAME = request.form["username"]
 		EMAIL = request.form["email"]
 		PASSWORD = request.form["password"]
 		ROLE = 1
@@ -236,7 +256,7 @@ def home():
 				sql = "SELECT * FROM USERN WHERE USERID = ?" +str(session['USERID'])
 				stmt = ibm_db.prepare(conn, sql)
 				ibm_db.execute(stmt)
-				data = ibm_db. fetch_assoc(stmt)
+				data = ibm_db.fetch_assoc(stmt)
 				print (data)
 				sq1 = "INSERT INTO TICKETS VALUES(?,?, NULL,?,?,NULL,?,?,?)"
 				stmt1 = ibm_db.prepare(conn, sql)
@@ -250,8 +270,39 @@ def home():
 				ibm_db.execute(stmt1)
 	return render_template('adminhome.html')
 
-@app.route('/post_compliant')
+@app.route('/post_compliant', methods=['POST', 'GET','PUT'])
 def post_compliant():
+	msg=''
+	if request.method == "POST":
+		issue = request.form["issue"]
+		desc = request.form["desc"]
+		lat = request.form["lat"]
+		long = request.form["long"]
+		img = request.files["image"]
+		path = os.path.join(app.config['UPLOAD_FOLDER'], img.filename)
+		img.save(path)
+		sql = "SELECT * FROM USERN WHERE USERID = ?"
+		stmt = ibm_db.prepare(conn, sql)
+		ibm_db.bind_param(stmt, 1, str(session['USERID']))
+		ibm_db.execute(stmt)
+		data = ibm_db.fetch_assoc(stmt)
+		print(data)
+		sql = "INSERT INTO TICKETS VALUES(?,?, NULL,?,?,NULL,?,?,?)"
+		stmt1 = ibm_db.prepare(conn, sql)
+		ibm_db.bind_param(stmt1, 1, data['USERID'])
+		ibm_db.bind_param(stmt1, 2, data['USERNAME'])
+		ibm_db.bind_param(stmt1, 3, issue)
+		ibm_db.bind_param(stmt1, 4, desc)
+		ibm_db.bind_param(stmt1, 5, lat)
+		ibm_db.bind_param(stmt1, 6, long)
+		ibm_db.bind_param(stmt1, 7, path)
+		ibm_db.execute(stmt1)
+		key=path
+		file = path.split('/')[-1]
+		cos.upload_file(Filename=path,Bucket='objstorage',Key=path)
+
+
+
 	return render_template('post_com.html')
 
 if __name__=="__main__":
