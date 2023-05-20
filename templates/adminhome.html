@@ -19,28 +19,30 @@
                 <th>DESCRIPTION</th>
                 <th>ASSINGE PARTNER</th>
                 <th>PROGRESS</th>
-                <th>WORK STATUS</th>
-                <th>IMAGE AFTER COMPLETION</th>
+
                 <th>DELETE ISSUE</th>
             </tr>
 
+            {% for i in data %}
+
             <tr>
                 <td>1</td>
-                <td>hgctg</td>
-                <td><img src="{{url_for('static',filename='images/23.png')}}" id="a"></td>
-                <td>street light</td>
-                <td>in our colony</td>
+                <td>{{i['USERNAME']}}</td>
+                <td><img src="{{i['IMAGE_ID']}}" height='60px' width='30px' id="a"></td>
+                <td>{{i['TITLE']}}</td>
+                <td>{{i['DESCRIPTION']}}</td>
                 <td><select name="role" id="role">
                     <option>Electrician</option>
                     <option>Plumber</option>
                     <option>Transportation worker</option>
                 </select></td>
-                <td>Electrician</td>
-                <td>completed</td>
-                <td><img src="{{url_for('static',filename='images/23.png')}}" id="a"></td>
+                
+                <td>{{i['PROGRESS']}}</td>
                 <td><center><button><img src="{{url_for('static',filename='images/22.jpeg')}}" id="b"></button></center></td>
                 
             </tr>
+
+            {% endfor %}
         
         </table>
     </div>

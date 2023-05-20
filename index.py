@@ -292,5 +292,19 @@ def status():
         data_li.append(data)
     return render_template('viewstatus.html',data=data_li)
 
+@app.route('/admin_home')
+def admin_home():
+    sql = "SELECT * FROM TICKETS"
+    stmt = ibm_db.prepare(conn, sql)
+    ibm_db.execute(stmt)
+    data_li = []
+    data = ibm_db.fetch_assoc(stmt)
+    print(data)
+    while data!=False:
+        print(data)
+        data = ibm_db.fetch_assoc(stmt)
+        data_li.append(data)
+    return render_template('adminhome.html',data=data_li)
+
 if __name__=="__main__":
 	app.run(debug=True)
